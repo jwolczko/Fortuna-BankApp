@@ -1,0 +1,29 @@
+meta {
+  name: Create Transfer
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/transfers
+  body: json
+}
+
+body:json {
+  {
+    "transferType": "{{transferType}}",
+    "sourceAccountId": "{{sourceAccountId}}",
+    "targetAccountId": "{{targetAccountId}}",
+    "targetAccountNumber": "{{externalTargetAccountNumber}}",
+    "recipientName": "{{externalRecipientName}}",
+    "amount": {{transferAmount}},
+    "currency": "{{currency}}",
+    "title": "{{transferTitle}}"
+  }
+}
+
+tests {
+  test("transfer returns 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+}

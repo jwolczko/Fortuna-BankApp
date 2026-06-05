@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Fortuna.Api/Fortuna.Api.csproj" />
+    <Project Path="src/Fortuna.Application/Fortuna.Application.csproj" />
+    <Project Path="src/Fortuna.Contracts/Fortuna.Contracts.csproj" />
+    <Project Path="src/Fortuna.Domain/Fortuna.Domain.csproj" />
+    <Project Path="src/Fortuna.Infrastructure/Fortuna.Infrastructure.csproj" />
+    <Project Path="src/Fortuna.ReadModel/Fortuna.ReadModel.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Fortuna.IntegrationTests/Fortuna.IntegrationTests.csproj" />
+    <Project Path="tests/Fortuna.UnitTests/Fortuna.UnitTests.csproj" />
+  </Folder>
+</Solution>

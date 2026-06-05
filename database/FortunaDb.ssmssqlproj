@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<SqlWorkbenchSqlProject xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="FortunaDb">
+  <Items>
+    <LogicalFolder Name="Połączenia" Type="2" Sorted="true">
+      <Items>
+        <ConnectionNode Name="JAKUB-PC:JAKUB-PC\Jakub">
+          <Created>2026-04-11T12:43:06.2713711+02:00</Created>
+          <Type>SQL</Type>
+          <Server>JAKUB-PC</Server>
+          <UserName />
+          <Authentication>Uwierzytelnianie systemu Windows</Authentication>
+          <InitialDB />
+          <LoginTimeout>15</LoginTimeout>
+          <TrustServerCertificate>True</TrustServerCertificate>
+          <EncryptionOption>True</EncryptionOption>
+          <ExecutionTimeout>0</ExecutionTimeout>
+          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
+          <ApplicationName>Microsoft SQL Server Management Studio — zapytanie</ApplicationName>
+        </ConnectionNode>
+      </Items>
+    </LogicalFolder>
+    <LogicalFolder Name="Zapytania" Type="0" Sorted="true">
+      <Items>
+        <FileNode Name="FortunaReadDb.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:JAKUB-PC:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>JAKUB-PC</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>FortunaReadDb.sql</FullPath>
+        </FileNode>
+        <FileNode Name="FortunaWriteDb.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:JAKUB-PC:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>JAKUB-PC</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>FortunaWriteDb.sql</FullPath>
+        </FileNode>
+      </Items>
+    </LogicalFolder>
+    <LogicalFolder Name="Różne" Type="3" Sorted="true">
+      <Items />
+    </LogicalFolder>
+  </Items>
+</SqlWorkbenchSqlProject>

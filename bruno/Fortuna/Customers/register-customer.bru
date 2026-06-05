@@ -1,0 +1,35 @@
+meta {
+  name: Register Customer
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/customers
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "firstName": "{{customerFirstName}}",
+    "lastName": "{{customerLastName}}",
+    "email": "{{customerEmail}}",
+    "password": "{{customerPassword}}",
+    "customerType": "{{customerType}}"
+  }
+}
+
+script:post-response {
+  const data = res.getBody();
+  
+  if (res.getStatus() === 201 && data?.customerId) {
+    bru.setVar("customerId", data.customerId);
+  }
+}
+
+tests {
+  test("register returns 201", function () {
+    expect(res.getStatus()).to.equal(201);
+  });
+}

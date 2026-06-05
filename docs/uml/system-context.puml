@@ -1,0 +1,46 @@
+@startuml
+title Fortuna - System Context
+
+skinparam shadowing false
+skinparam packageStyle rectangle
+skinparam componentStyle rectangle
+
+actor "Klient" as Customer
+
+rectangle "Frontend\nReact + Vite" as Frontend
+rectangle "Bruno Collection\nAPI manual tests" as Bruno
+
+package "Backend" {
+  rectangle "Fortuna.Api\nASP.NET Core" as Api
+  rectangle "Fortuna.Application\nUse Cases / CQRS Handlers" as App
+  rectangle "Fortuna.Domain\nDomain Model" as Domain
+  rectangle "Fortuna.Infrastructure\nEF Core + JWT + Repositories" as Infra
+  rectangle "Fortuna.ReadModel\nDashboard projections" as ReadModel
+}
+
+database "FortunaWriteDb" as WriteDb
+database "FortunaReadDb" as ReadDb
+
+Customer --> Frontend : register / login /\ndashboard / transfer
+Customer --> Bruno : invoke requests
+
+Frontend --> Api : HTTPS JSON API
+Bruno --> Api : HTTPS JSON API
+
+Api --> App : commands / queries
+Api --> ReadModel : dashboard query
+App --> Domain : business rules
+App --> Infra : repositories,\nunit of work,\npassword hashing,\nJWT
+
+Infra --> WriteDb : transactional writes
+Infra --> ReadModel : outbox source
+ReadModel --> ReadDb : projections / queries
+ReadModel --> WriteDb : read OutboxMessages
+
+note right of ReadModel
+  Dashboard is served from a separate
+  read database populated asynchronously
+  from outbox events.
+end note
+
+@enduml

@@ -1,0 +1,131 @@
+@startuml
+title Fortuna - Database ERD
+
+skinparam shadowing false
+hide circle
+
+entity "Customers" as Customers {
+  * Id : uniqueidentifier
+  --
+  FirstName : nvarchar(100)
+  LastName : nvarchar(100)
+  Email : nvarchar(200)
+  PasswordHash : nvarchar(512)
+  CustomerType : int
+  CreatedAtUtc : datetime2
+}
+
+entity "Products" as Products {
+  * Id : uniqueidentifier
+  --
+  CustomerId : uniqueidentifier
+  Discriminator : nvarchar(50)
+  ProductCategory : int
+  ProductName : nvarchar(200)
+  ProductNumber : nvarchar(64)
+  NumberSequence : bigint
+  AccountNumber : nvarchar(34)
+  BankAccountType : int
+  CardType : int
+  CreditLimit : decimal(18,2)
+  LoanType : int
+  Balance : decimal(18,2)
+  BalanceCurrency : nvarchar(3)
+  Currency : nvarchar(3)
+  Status : int
+  CreatedAtUtc : datetime2
+}
+
+entity "Transactions" as Transactions {
+  * Id : uniqueidentifier
+  --
+  BankAccountId : uniqueidentifier
+  TransferId : uniqueidentifier?
+  Type : int
+  Amount : decimal(18,2)
+  Currency : nvarchar(3)
+  Title : nvarchar(300)
+  BookedAtUtc : datetime2
+}
+
+entity "Transfers" as Transfers {
+  * Id : uniqueidentifier
+  --
+  TransferType : int
+  SourceAccountId : uniqueidentifier
+  TargetAccountId : uniqueidentifier?
+  ExternalTargetAccountNumber : nvarchar(34)?
+  ExternalRecipientName : nvarchar(200)?
+  Amount : decimal(18,2)
+  Currency : nvarchar(3)
+  Title : nvarchar(300)
+  Status : int
+  CreatedAtUtc : datetime2
+  CompletedAtUtc : datetime2?
+}
+
+entity "OutboxMessages" as OutboxMessages {
+  * Id : uniqueidentifier
+  --
+  Type : nvarchar(500)
+  Payload : nvarchar(max)
+  OccurredOnUtc : datetime2
+  ProcessedOnUtc : datetime2?
+  Error : nvarchar(max)?
+}
+
+entity "ProductTile" as ProductTile {
+  * ProductId : uniqueidentifier
+  --
+  CustomerId : uniqueidentifier
+  ProductCategory : nvarchar(50)
+  ProductType : nvarchar(50)
+  ProductName : nvarchar(200)
+  ProductNumber : nvarchar(64)
+  Balance : decimal(18,2)
+  Currency : nvarchar(3)
+}
+
+entity "TimelineEvent" as TimelineEvent {
+  * Id : uniqueidentifier
+  --
+  CustomerId : uniqueidentifier
+  ProductId : uniqueidentifier?
+  EventDateUtc : datetime2
+  EventType : nvarchar(100)
+  Title : nvarchar(300)
+  Amount : decimal(18,2)
+  Currency : nvarchar(3)
+  IsPositive : bit
+}
+
+entity "ProcessedOutboxMessage" as ProcessedOutboxMessage {
+  * OutboxMessageId : uniqueidentifier
+  --
+  ProcessedAtUtc : datetime2
+}
+
+Customers ||--o{ Products
+Products ||--o{ Transactions : BankAccountId
+Products ||--o{ Transfers : SourceAccountId
+Products ||--o| Transfers : TargetAccountId
+Transfers ||--o{ Transactions : TransferId
+
+Customers ||--o{ ProductTile
+Customers ||--o{ TimelineEvent
+ProductTile ||--o{ TimelineEvent : ProductId
+OutboxMessages ||--|| ProcessedOutboxMessage : OutboxMessageId
+
+note right of Products
+  Single-table hierarchy for:
+  - BankAccount
+  - Card
+  - Loan
+end note
+
+note right of ProductTile
+  Read model used by dashboard.
+  Populated asynchronously from outbox.
+end note
+
+@enduml

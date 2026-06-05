@@ -1,0 +1,98 @@
+.dashboard-page {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background:
+    linear-gradient(rgba(251, 247, 236, 0.82), rgba(251, 247, 236, 0.86)),
+    url('../../assets/landing/fortuna-watermark.png') center / cover fixed no-repeat,
+    var(--color-ivory);
+}
+
+.dashboard-page::before {
+  content: '';
+  position: fixed;
+  inset: 66px 0 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(199, 161, 58, 0.18), transparent 34%),
+    rgba(251, 247, 236, 0.3);
+  backdrop-filter: saturate(0.72);
+}
+
+.dashboard-page__content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 0;
+  min-height: calc(100vh - 66px);
+}
+
+.dashboard-page__main {
+  position: relative;
+  padding: 20px 16px 40px;
+  border-right: 1px solid var(--border);
+}
+
+.dashboard-page__sidebar {
+  padding: 20px;
+  max-height: calc(100vh - 66px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.dashboard-page__sidebar::-webkit-scrollbar {
+  width: 10px;
+}
+
+.dashboard-page__sidebar::-webkit-scrollbar-thumb {
+  background: var(--color-gold-light);
+  border-radius: 999px;
+  border: 2px solid var(--color-ivory);
+}
+
+.dashboard-page__sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dashboard-page__settings-btn {
+  width: 38px;
+  height: 38px;
+  border: 2px solid var(--color-gold);
+  border-radius: 50%;
+  background: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--color-burgundy);
+  transition:
+    background-color 0.16s ease,
+    color 0.16s ease,
+    transform 0.08s ease;
+}
+
+.dashboard-page__settings-btn:hover {
+  background: var(--color-gold-light);
+}
+
+.dashboard-page__settings-btn:active {
+  background: var(--color-burgundy);
+  color: var(--color-ivory-strong);
+  transform: translateY(1px);
+}
+
+@media (max-width: 1200px) {
+  .dashboard-page__content {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .dashboard-page__main {
+    border-right: none;
+  }
+
+  .dashboard-page__sidebar {
+    max-height: none;
+    overflow-y: visible;
+  }
+}

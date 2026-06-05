@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" role="img" aria-labelledby="title">
+  <title id="title">Fortuna</title>
+  <rect width="48" height="48" rx="10" fill="#071a33"/>
+  <path fill="#c7a13a" d="M12 10h25v7H20v6h14v7H20v10h-8z"/>
+  <path fill="#006b55" d="M26 22h11v7H26z"/>
+  <path fill="#7c1730" d="M31 31h6v9h-6z"/>
+  <path fill="#fbf7ec" d="M20 10h17v3H20z" opacity=".72"/>
+</svg>

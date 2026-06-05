@@ -1,0 +1,71 @@
+.events-sidebar h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-navy);
+  margin-bottom: 16px;
+}
+
+.events-sidebar__group {
+  margin-bottom: 18px;
+}
+
+.events-sidebar__group h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-navy);
+  margin-bottom: 10px;
+}
+
+.events-sidebar__items {
+  display: grid;
+  gap: 10px;
+}
+
+.events-sidebar__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  min-height: 66px;
+  background: var(--surface);
+  border-radius: 10px;
+  padding: 14px 16px;
+  box-shadow: 0 2px 8px rgba(7, 26, 51, 0.08);
+}
+
+.events-sidebar__item--success {
+  background: var(--color-emerald-light);
+  border-left: 3px solid var(--color-emerald);
+}
+
+.events-sidebar__item-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.events-sidebar__icon {
+  color: var(--color-burgundy);
+  font-size: 18px;
+}
+
+.events-sidebar__icon--positive {
+  color: var(--color-emerald);
+}
+
+.events-sidebar__text {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-navy);
+  line-height: 1.3;
+}
+
+.events-sidebar__amount {
+  white-space: nowrap;
+  color: var(--color-navy);
+  font-weight: 700;
+}
+
+.events-sidebar__amount--positive {
+  color: var(--color-emerald);
+}

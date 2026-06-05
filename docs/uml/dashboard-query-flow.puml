@@ -1,0 +1,28 @@
+@startuml
+title Fortuna - Dashboard Query Flow
+
+actor "User" as User
+participant "Frontend" as Frontend
+participant "DashboardController" as Controller
+participant "GetDashboardQueryHandler" as Handler
+participant "DashboardReadRepository" as Repo
+database "FortunaReadDb" as ReadDb
+
+User -> Frontend : Open dashboard
+Frontend -> Controller : GET /api/dashboard/{customerId}\nAuthorization: Bearer token
+Controller -> Controller : Validate customerId from JWT
+Controller -> Handler : GetDashboardQuery
+Handler -> Repo : GetDashboardAsync(customerId)
+Repo -> ReadDb : Load ProductTile list
+Repo -> ReadDb : Load TimelineEvent list
+Repo -> Repo : Compute total balance
+Repo --> Handler : DashboardDto
+Handler --> Controller : DashboardDto
+Controller --> Frontend : DashboardResponse
+
+note right of Repo
+  Dashboard reads only from FortunaReadDb,
+  not directly from the transactional write model.
+end note
+
+@enduml

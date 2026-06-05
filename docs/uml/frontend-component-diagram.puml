@@ -1,0 +1,100 @@
+@startuml
+title Fortuna - Frontend Component Diagram
+
+skinparam shadowing false
+skinparam componentStyle rectangle
+skinparam packageStyle rectangle
+
+package "React SPA" {
+  [main.tsx] as Main
+  [AppRouter] as Router
+
+  package "Providers" {
+    [ReduxProvider] as ReduxProvider
+    [QueryProvider] as QueryProvider
+  }
+
+  package "Layouts" {
+    [PublicLayout] as PublicLayout
+    [DashboardLayout] as DashboardLayout
+  }
+
+  package "Views" {
+    [LandingPage] as LandingPage
+    [LoginPage] as LoginPage
+    [CreateAccountPage] as CreateAccountPage
+    [DashboardPage] as DashboardPage
+  }
+
+  package "Feature modules" {
+    [authApi] as AuthApi
+    [authSlice] as AuthSlice
+    [authSession] as AuthSession
+    [dashboardApi] as DashboardApi
+    [useDashboard] as UseDashboard
+    [transferApi] as TransferApi
+    [dashboardTransferUpdater] as TransferUpdater
+  }
+
+  package "UI components" {
+    [LandingHeader] as LandingHeader
+    [LandingHero] as LandingHero
+    [LoginPanel] as LoginPanel
+    [CreateAccountPanel] as CreateAccountPanel
+    [DashboardHeader] as DashboardHeader
+    [SummarySection] as SummarySection
+    [ProductsSection] as ProductsSection
+    [EventsSidebar] as EventsSidebar
+    [TransferPanel] as TransferPanel
+    [InfoPopup] as InfoPopup
+  }
+}
+
+database "Redux Store" as Store
+cloud "Fortuna.Api\nREST JSON API" as Api
+
+Main --> ReduxProvider
+Main --> QueryProvider
+Main --> Router
+
+Router --> PublicLayout
+Router --> DashboardLayout
+PublicLayout --> LandingPage
+PublicLayout --> LoginPage
+PublicLayout --> CreateAccountPage
+DashboardLayout --> DashboardPage
+
+LandingPage --> LandingHeader
+LandingPage --> LandingHero
+LandingPage --> LoginPanel
+LandingPage --> InfoPopup
+LoginPage --> LoginPanel
+CreateAccountPage --> CreateAccountPanel
+
+DashboardPage --> DashboardHeader
+DashboardPage --> SummarySection
+DashboardPage --> ProductsSection
+DashboardPage --> EventsSidebar
+DashboardPage --> TransferPanel
+
+LoginPanel --> AuthApi
+CreateAccountPanel --> AuthApi
+AuthApi --> Api
+AuthSlice --> Store
+AuthSession --> Store
+
+UseDashboard --> DashboardApi
+DashboardApi --> Api
+DashboardPage --> UseDashboard
+
+TransferPanel --> TransferApi
+TransferPanel --> TransferUpdater
+TransferApi --> Api
+TransferUpdater --> UseDashboard
+
+note right of Store
+  Stores auth token,
+  customer id and session state.
+end note
+
+@enduml

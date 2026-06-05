@@ -1,0 +1,48 @@
+@startuml
+title Fortuna - Registration and Login Flow
+
+actor "User" as User
+participant "Frontend / Bruno" as Client
+participant "CustomersController" as Controller
+participant "RegisterCustomerCommandHandler" as RegisterHandler
+participant "CustomerRepository" as CustomerRepo
+participant "ProductRepository" as ProductRepo
+participant "PasswordHasher" as Hasher
+participant "UnitOfWork / WriteDbContext" as Uow
+participant "LoginCustomerCommandHandler" as LoginHandler
+participant "TokenProvider (JWT)" as TokenProvider
+
+== Registration ==
+User -> Client : Fill registration form
+Client -> Controller : POST /api/customers
+Controller -> RegisterHandler : RegisterCustomerCommand
+RegisterHandler -> CustomerRepo : GetByEmailAsync(email)
+CustomerRepo --> RegisterHandler : existing customer / null
+RegisterHandler -> Hasher : Hash(password)
+Hasher --> RegisterHandler : passwordHash
+RegisterHandler -> CustomerRepo : AddAsync(customer)
+RegisterHandler -> ProductRepo : GetNextNumberSequenceAsync()
+ProductRepo --> RegisterHandler : next sequence
+RegisterHandler -> RegisterHandler : Create default products\n(account + debit card [+ credit card])
+loop for each default product
+  RegisterHandler -> ProductRepo : AddAsync(product)
+end
+RegisterHandler -> Uow : SaveChangesAsync()
+Uow --> RegisterHandler : customerId
+RegisterHandler --> Controller : customerId
+Controller --> Client : 201 Created
+
+== Login ==
+User -> Client : Submit email and password
+Client -> Controller : POST /api/customers/login
+Controller -> LoginHandler : LoginCustomerCommand
+LoginHandler -> CustomerRepo : GetByEmailAsync(email)
+CustomerRepo --> LoginHandler : customer
+LoginHandler -> Hasher : Verify(password, hash)
+Hasher --> LoginHandler : true / false
+LoginHandler -> TokenProvider : Create(customerId, email)
+TokenProvider --> LoginHandler : JWT token
+LoginHandler --> Controller : AuthenticationToken
+Controller --> Client : 200 OK (token, expiresAtUtc)
+
+@enduml

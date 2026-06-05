@@ -1,0 +1,37 @@
+@startuml
+title Fortuna - Incoming Transfer Simulation Flow
+
+actor "User" as User
+participant "Frontend / Bruno" as Client
+participant "TransfersController" as Controller
+participant "DepositMoneyCommandHandler" as Handler
+participant "ProductRepository" as ProductRepo
+participant "UnitOfWork / WriteDbContext" as Uow
+database "FortunaWriteDb" as WriteDb
+participant "ProjectionDispatcher" as Projector
+database "FortunaReadDb" as ReadDb
+
+User -> Client : Trigger incoming transfer simulation
+Client -> Controller : POST /api/transfers/incoming
+Controller -> Handler : DepositMoneyCommand
+Handler -> ProductRepo : GetByIdAsync(targetAccountId)
+ProductRepo --> Handler : BankAccount or Card
+
+alt BankAccount
+  Handler -> Handler : bankAccount.Deposit(amount, title)
+else Card
+  Handler -> Handler : card.Deposit(amount, title)
+end
+
+Handler -> Uow : SaveChangesAsync()
+Uow -> WriteDb : Persist balance change + outbox event
+Uow --> Controller : productId
+Controller --> Client : 200 OK
+
+... asynchronous projection ...
+
+Projector -> WriteDb : Read MoneyDepositedDomainEvent
+Projector -> ReadDb : Increase ProductTile balance
+Projector -> ReadDb : Insert TimelineEvent(type=deposit)
+
+@enduml

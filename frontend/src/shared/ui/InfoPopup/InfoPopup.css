@@ -1,0 +1,55 @@
+.info-popup__overlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(28, 31, 36, 0.58);
+  backdrop-filter: grayscale(1) saturate(0.18) brightness(0.9);
+  z-index: 2000;
+}
+
+.info-popup {
+  width: min(100%, 360px);
+  padding: 24px 20px 20px;
+  border-radius: 18px;
+  background: #fff;
+  border: 2px solid var(--color-gold);
+  box-shadow: 0 24px 60px rgba(7, 26, 51, 0.24);
+  text-align: center;
+  font-family: var(--sans);
+}
+
+.info-popup__message {
+  margin: 0 0 18px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--color-navy);
+}
+
+.info-popup__button {
+  min-width: 110px;
+  height: 40px;
+  border: 2px solid var(--color-burgundy);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--color-burgundy);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.16s ease,
+    border-color 0.16s ease,
+    color 0.16s ease,
+    transform 0.08s ease;
+}
+
+.info-popup__button:hover {
+  background: var(--color-burgundy-light);
+}
+
+.info-popup__button:active {
+  background: var(--color-burgundy);
+  color: var(--color-ivory-strong);
+  transform: translateY(1px);
+}

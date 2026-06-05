@@ -1,0 +1,57 @@
+@startuml
+title Fortuna - Transfer and Dashboard Update Flow
+
+actor "User" as User
+participant "Frontend Dashboard" as Frontend
+participant "TransfersController" as TransfersController
+participant "CreateTransferCommandHandler" as TransferHandler
+participant "ProductRepository /\nBankAccountRepository" as Repo
+participant "TransferRepository" as TransferRepo
+participant "UnitOfWork /\nWriteDbContext" as Uow
+database "FortunaWriteDb" as WriteDb
+participant "ProjectionDispatcher" as Projector
+database "FortunaReadDb" as ReadDb
+participant "DashboardController" as DashboardController
+participant "GetDashboardQueryHandler" as DashboardHandler
+participant "DashboardReadRepository" as ReadRepo
+
+User -> Frontend : Click "WYKONAJ PRZELEW"
+Frontend -> TransfersController : POST /api/transfers
+TransfersController -> TransferHandler : CreateTransferCommand
+
+alt Own transfer
+  TransferHandler -> Repo : Get source account
+  Repo --> TransferHandler : source
+  TransferHandler -> Repo : Get target account
+  Repo --> TransferHandler : target
+  TransferHandler -> TransferHandler : source.Withdraw(amount)\ntarget.Deposit(amount)\nTransfer.CreateOwn(...)\nMarkCompleted()
+else External transfer
+  TransferHandler -> Repo : Get source account
+  Repo --> TransferHandler : source
+  TransferHandler -> TransferHandler : source.Withdraw(amount)\nTransfer.CreateExternal(...)\nMarkCompleted()
+end
+
+TransferHandler -> TransferRepo : AddAsync(transfer)
+TransferHandler -> Uow : SaveChangesAsync()
+Uow -> WriteDb : Persist entities + OutboxMessages
+Uow --> TransfersController : transferId
+TransfersController --> Frontend : 200 OK
+
+Frontend -> Frontend : Optimistic dashboard update
+
+... asynchronous read model refresh ...
+
+Projector -> WriteDb : Read unprocessed OutboxMessages
+Projector -> ReadDb : Update ProductTile balance
+Projector -> ReadDb : Insert TimelineEvent
+Projector -> ReadDb : Mark ProcessedOutboxMessage
+
+Frontend -> DashboardController : GET /api/dashboard/{customerId}
+DashboardController -> DashboardHandler : GetDashboardQuery
+DashboardHandler -> ReadRepo : GetDashboardAsync(customerId)
+ReadRepo -> ReadDb : Read ProductTile + TimelineEvent
+ReadRepo --> DashboardHandler : DashboardDto
+DashboardHandler --> DashboardController : DashboardDto
+DashboardController --> Frontend : DashboardResponse
+
+@enduml

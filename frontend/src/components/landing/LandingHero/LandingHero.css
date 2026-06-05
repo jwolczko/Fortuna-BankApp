@@ -1,0 +1,238 @@
+.landing-hero {
+  position: relative;
+  padding: 16px 18px 118px;
+  background:
+    radial-gradient(circle at 50% 8%, rgba(199, 161, 58, 0.12), transparent 28%),
+    var(--color-ivory);
+}
+
+.landing-hero__grid {
+  display: grid;
+  grid-template-columns: minmax(420px, 1fr) minmax(420px, 1fr);
+  max-width: 1290px;
+  min-height: 530px;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid rgba(199, 161, 58, 0.36);
+  border-radius: 8px;
+  background: var(--color-navy);
+  box-shadow: 0 24px 56px rgba(7, 26, 51, 0.16);
+}
+
+.landing-hero__content {
+  position: relative;
+  min-height: 530px;
+  padding: 72px 40px 102px;
+  color: var(--color-ivory-strong);
+  background:
+    radial-gradient(circle at 82% 72%, rgba(0, 107, 85, 0.22), transparent 34%),
+    linear-gradient(135deg, #06192f 0%, var(--color-navy) 58%, #0b2a42 100%);
+}
+
+.landing-hero__content h1 {
+  max-width: 620px;
+  margin: 0 0 28px;
+  color: var(--color-ivory-strong);
+  font-size: clamp(2.5rem, 3.4vw, 3.85rem);
+  font-weight: 300;
+  line-height: 1.14;
+  letter-spacing: 0;
+}
+
+.landing-hero__content p {
+  max-width: 620px;
+  margin: 0;
+  color: rgba(255, 253, 247, 0.9);
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+.landing-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 14px;
+  margin-top: 30px;
+}
+
+.landing-hero__primary-btn,
+.landing-hero__secondary-btn {
+  min-width: 126px !important;
+  min-height: 42px !important;
+  padding: 0 18px !important;
+  border-radius: 7px !important;
+  font-size: 0.82rem;
+}
+
+.landing-hero__primary-btn {
+  border-color: var(--color-burgundy) !important;
+  color: var(--color-burgundy) !important;
+}
+
+.landing-hero__secondary-btn {
+  border-color: var(--color-gold) !important;
+  color: var(--color-navy) !important;
+}
+
+.landing-hero__legal-link {
+  color: rgba(234, 216, 162, 0.82);
+  font-size: 0.92rem;
+}
+
+.landing-hero__play-btn {
+  position: absolute;
+  right: 26px;
+  bottom: 22px;
+  width: 30px !important;
+  min-width: 30px !important;
+  height: 30px !important;
+  min-height: 30px !important;
+  border-color: var(--color-gold) !important;
+  color: var(--color-navy) !important;
+  box-shadow: 0 10px 22px rgba(7, 26, 51, 0.18);
+}
+
+.landing-hero__play-btn span {
+  display: inline-block;
+  margin-left: 2px;
+  font-size: 11px;
+}
+
+.landing-hero__visual {
+  position: relative;
+  min-height: 530px;
+  overflow: hidden;
+  background-image: var(--fortuna-landing-image);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-color: var(--color-emerald);
+}
+
+.landing-hero__cards {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1.16fr 1fr 1fr 1fr;
+  max-width: 1260px;
+  margin: -70px auto 0;
+  overflow: hidden;
+  border: 1px solid rgba(199, 161, 58, 0.32);
+  border-radius: 8px;
+  background: var(--color-ivory-strong);
+  box-shadow: 0 22px 42px rgba(7, 26, 51, 0.14);
+}
+
+.landing-hero__card {
+  min-height: 120px;
+  padding: 34px 28px 30px;
+  border-left: 1px solid var(--border);
+  background: rgba(255, 253, 247, 0.94);
+}
+
+.landing-hero__card strong {
+  display: block;
+  margin-bottom: 16px;
+  color: var(--color-burgundy);
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.landing-hero__card p {
+  margin: 0;
+  color: #526061;
+  font-size: 0.92rem;
+}
+
+.landing-hero__card--dark {
+  position: relative;
+  border-left: none;
+  background:
+    radial-gradient(circle at 92% 50%, rgba(0, 107, 85, 0.22), transparent 30%),
+    var(--color-navy);
+}
+
+.landing-hero__card--dark strong,
+.landing-hero__card--dark span,
+.landing-hero__card--dark p {
+  color: var(--color-ivory-strong);
+}
+
+.landing-hero__card--dark span {
+  position: absolute;
+  top: 50%;
+  right: 28px;
+  font-size: 2rem;
+  line-height: 1;
+  transform: translateY(-50%);
+}
+
+@media (max-width: 1200px) {
+  .landing-hero {
+    padding: 16px 14px 48px;
+  }
+
+  .landing-hero__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .landing-hero__visual {
+    background-size: cover;
+    background-position: center;
+  }
+
+  .landing-hero__cards {
+    grid-template-columns: 1fr 1fr;
+    margin-top: 16px;
+  }
+
+  .landing-hero__card:nth-child(odd) {
+    border-left: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .landing-hero {
+    padding: 12px 10px 34px;
+  }
+
+  .landing-hero__grid {
+    min-height: auto;
+    border-radius: 8px;
+  }
+
+  .landing-hero__content {
+    min-height: auto;
+    padding: 34px 22px 76px;
+  }
+
+  .landing-hero__content h1 {
+    font-size: 2.35rem;
+  }
+
+  .landing-hero__actions {
+    align-items: stretch;
+  }
+
+  .landing-hero__primary-btn,
+  .landing-hero__secondary-btn {
+    width: 100%;
+  }
+
+  .landing-hero__legal-link {
+    width: 100%;
+  }
+
+  .landing-hero__visual {
+    min-height: 360px;
+  }
+
+  .landing-hero__cards {
+    grid-template-columns: 1fr;
+  }
+
+  .landing-hero__card {
+    border-left: none;
+    border-top: 1px solid var(--border);
+  }
+}

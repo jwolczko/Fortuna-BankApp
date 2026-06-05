@@ -1,0 +1,61 @@
+.ui-button {
+  min-height: 38px;
+  padding: 0 16px;
+  font-weight: 700;
+  font-size: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition:
+    background-color 0.16s ease,
+    border-color 0.16s ease,
+    color 0.16s ease,
+    transform 0.08s ease;
+}
+
+.ui-button--primary {
+  border: 2px solid var(--color-burgundy);
+  background: #fff;
+  color: var(--color-burgundy);
+}
+
+.ui-button--primary:hover {
+  background: var(--color-burgundy-light);
+}
+
+.ui-button--primary:active {
+  background: var(--color-burgundy);
+  color: var(--color-ivory-strong);
+  transform: translateY(1px);
+}
+
+.ui-button--outline {
+  border: 2px solid var(--color-gold);
+  background: #fff;
+  color: var(--color-navy);
+}
+
+.ui-button--outline:hover {
+  background: var(--color-gold-light);
+}
+
+.ui-button--outline:active {
+  background: var(--color-gold);
+  color: var(--color-navy);
+  transform: translateY(1px);
+}
+
+.ui-button--ghost {
+  border: 2px solid var(--color-emerald);
+  background: #fff;
+  color: var(--color-emerald);
+}
+
+.ui-button--ghost:hover {
+  background: var(--color-emerald-light);
+}
+
+.ui-button--ghost:active {
+  background: var(--color-emerald);
+  color: var(--color-ivory-strong);
+  transform: translateY(1px);
+}

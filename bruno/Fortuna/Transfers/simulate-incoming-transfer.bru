@@ -1,0 +1,37 @@
+meta {
+  name: Simulate Incoming Transfer
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/transfers/incoming
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{authToken}}
+}
+
+body:json {
+  {
+    "targetAccountId": "{{targetAccountId}}",
+    "amount": {{incomingTransferAmount}},
+    "currency": "{{currency}}",
+    "title": "{{incomingTransferTitle}}"
+  }
+}
+
+vars:pre-request {
+  targetAccountId: E830E5D5-9263-465E-B38C-0FDDEC697E0B
+  incomingTransferAmount: 10000000
+  currency: PLN
+  incomingTransferTitle: Salary
+}
+
+tests {
+  test("incoming transfer returns 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+}

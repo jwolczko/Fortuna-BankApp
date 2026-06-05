@@ -1,0 +1,54 @@
+@startuml
+title Fortuna - Authentication and Authorization Flow
+
+skinparam shadowing false
+
+actor "User" as User
+participant "LoginPanel" as LoginPanel
+participant "authApi" as AuthApi
+participant "CustomersController" as CustomersController
+participant "LoginCustomerCommandHandler" as LoginHandler
+participant "CustomerRepository" as CustomerRepo
+participant "PasswordHasher" as Hasher
+participant "JwtTokenProvider" as JwtProvider
+participant "authSlice / authSession" as AuthState
+participant "DashboardPage" as DashboardPage
+participant "apiRequest" as ApiRequest
+participant "DashboardController" as DashboardController
+
+User -> LoginPanel : Enter email and password
+LoginPanel -> AuthApi : loginRequest(email, password)
+AuthApi -> CustomersController : POST /api/customers/login
+CustomersController -> LoginHandler : LoginCustomerCommand
+LoginHandler -> CustomerRepo : GetByEmailAsync(email)
+CustomerRepo --> LoginHandler : Customer / null
+LoginHandler -> Hasher : Verify(password, hash)
+
+alt credentials valid
+  Hasher --> LoginHandler : true
+  LoginHandler -> JwtProvider : Create(customerId, email)
+  JwtProvider --> LoginHandler : token + expiresAtUtc
+  LoginHandler --> CustomersController : AuthenticationToken
+  CustomersController --> AuthApi : 200 OK
+  AuthApi --> LoginPanel : LoginResponse
+  LoginPanel -> AuthState : store token and decoded customerId
+  LoginPanel -> DashboardPage : navigate /dashboard
+else credentials invalid
+  Hasher --> LoginHandler : false
+  LoginHandler --> CustomersController : UnauthorizedException
+  CustomersController --> AuthApi : 401 Unauthorized
+end
+
+DashboardPage -> AuthState : read token and customerId
+DashboardPage -> ApiRequest : GET /api/dashboard/{customerId}
+ApiRequest -> DashboardController : Authorization: Bearer token
+DashboardController -> DashboardController : Validate JWT
+DashboardController -> DashboardController : Compare route customerId\nwith customerId claim
+
+alt same customer
+  DashboardController --> ApiRequest : DashboardResponse
+else different customer
+  DashboardController --> ApiRequest : 403 Forbid
+end
+
+@enduml

@@ -1,0 +1,173 @@
+@startuml
+title Fortuna - Core Domain Class Diagram
+
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+
+abstract class Entity<TId>
+interface IAggregateRoot
+abstract class ValueObject
+
+class Customer {
+  +CustomerId Id
+  +FullName FullName
+  +Email Email
+  +string PasswordHash
+  +CustomerType Type
+  +DateTime CreatedAtUtc
+}
+
+abstract class Product {
+  +Guid Id
+  +CustomerId CustomerId
+  +string ProductName
+  +string ProductNumber
+  +long NumberSequence
+  +string Currency
+  +Money Balance
+  +ProductCategory Category
+  +ProductStatus Status
+  +DateTime CreatedAtUtc
+}
+
+class BankAccount {
+  +AccountNumber AccountNumber
+  +BankAccountType AccountType
+  +Deposit(amount, title, transferId)
+  +Withdraw(amount, title, transferId)
+}
+
+class Card {
+  +CardType CardType
+  +decimal? CreditLimit
+  +Deposit(amount, title, transferId)
+  +Withdraw(amount, title, transferId)
+}
+
+class Loan {
+  +LoanType LoanType
+}
+
+class Transfer {
+  +TransferId Id
+  +TransferType TransferType
+  +Guid SourceAccountId
+  +Guid? TargetAccountId
+  +Money Amount
+  +string Title
+  +string? ExternalTargetAccountNumber
+  +string? ExternalRecipientName
+  +TransferStatus Status
+  +CreateOwn(...)
+  +CreateExternal(...)
+  +MarkCompleted()
+}
+
+class TransactionEntry {
+  +TransactionId Id
+  +Guid BankAccountId
+  +TransactionType Type
+  +Money Amount
+  +string Title
+  +DateTime BookedAtUtc
+  +Guid? TransferId
+}
+
+class Money {
+  +decimal Amount
+  +string Currency
+  +Add(other)
+  +Subtract(other)
+  +Zero(currency)
+}
+
+class AccountNumber
+class FullName
+class Email
+
+enum CustomerType {
+  Normal
+  Prestige
+}
+
+enum ProductCategory {
+  BankAccount
+  Card
+  Loan
+}
+
+enum ProductStatus {
+  Active
+  Suspended
+  Closed
+}
+
+enum BankAccountType {
+  Standard
+  Prestige
+  Savings
+}
+
+enum CardType {
+  Debit
+  Credit
+}
+
+enum LoanType {
+  Cash
+  Consumer
+}
+
+enum TransferType {
+  Own
+  External
+}
+
+enum TransferStatus {
+  Pending
+  Completed
+  Failed
+}
+
+enum TransactionType {
+  Credit
+  Debit
+}
+
+Entity <|-- Customer
+Entity <|-- Product
+Entity <|-- Transfer
+Entity <|-- TransactionEntry
+
+ValueObject <|-- Money
+ValueObject <|-- AccountNumber
+ValueObject <|-- FullName
+ValueObject <|-- Email
+
+Product <|-- BankAccount
+Product <|-- Card
+Product <|-- Loan
+
+Customer "1" o-- "*" Product
+BankAccount "1" o-- "*" TransactionEntry
+Product --> Money
+Transfer --> Money
+TransactionEntry --> Money
+
+Customer ..> CustomerType
+Product ..> ProductCategory
+Product ..> ProductStatus
+BankAccount ..> BankAccountType
+Card ..> CardType
+Loan ..> LoanType
+Transfer ..> TransferType
+Transfer ..> TransferStatus
+TransactionEntry ..> TransactionType
+
+BankAccount ..|> IAggregateRoot
+Card ..|> IAggregateRoot
+Loan ..|> IAggregateRoot
+Transfer ..|> IAggregateRoot
+Customer ..|> IAggregateRoot
+
+@enduml

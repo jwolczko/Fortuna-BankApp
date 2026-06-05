@@ -1,0 +1,15 @@
+{
+  "version": "1",
+  "name": "Fortuna",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ],
+  "size": 0.0042095184326171875,
+  "filesCount": 13,
+  "presets": {
+    "requestType": "http",
+    "requestUrl": "https://localhost:57751"
+  }
+}

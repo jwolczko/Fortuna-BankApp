@@ -1,0 +1,56 @@
+@startuml
+title Fortuna - Local Runtime / Deployment Diagram
+
+skinparam shadowing false
+skinparam componentStyle rectangle
+skinparam packageStyle rectangle
+
+node "Developer machine" {
+  node "Browser" {
+    [Fortuna Frontend\nReact SPA] as Frontend
+  }
+
+  node "Vite dev server\nhttp://localhost:5173" {
+    [Static assets\nJS/CSS/images] as Vite
+  }
+
+  node "ASP.NET Core process\nFortuna.Api" {
+    [Controllers] as Controllers
+    [Application handlers] as Handlers
+    [Domain model] as Domain
+    [EF Core WriteDbContext] as WriteContext
+    [EF Core ReadDbContext] as ReadContext
+    [OutboxMessageProcessor] as OutboxProcessor
+    [Swagger UI] as Swagger
+  }
+
+  node "SQL Server\nlocalhost" {
+    database "FortunaWriteDb" as WriteDb
+    database "FortunaReadDb" as ReadDb
+  }
+
+  node "Bruno / API client" {
+    [Manual API requests] as Bruno
+  }
+}
+
+Frontend --> Vite : load app bundle
+Frontend --> Controllers : REST JSON API\nCORS allowed origin
+Bruno --> Controllers : REST JSON API
+Controllers --> Handlers : commands / queries
+Handlers --> Domain : business rules
+Handlers --> WriteContext : transactional writes
+Handlers --> ReadContext : dashboard reads
+WriteContext --> WriteDb : Customers, Products,\nTransfers, Transactions,\nOutboxMessages
+ReadContext --> ReadDb : ProductTile,\nTimelineEvent,\nProcessedOutboxMessage
+OutboxProcessor --> WriteDb : read unprocessed outbox
+OutboxProcessor --> ReadDb : update projections
+Swagger --> Controllers : test endpoints
+
+note bottom of Controllers
+  JWT Bearer authentication
+  protects dashboard, accounts
+  and transfer endpoints.
+end note
+
+@enduml

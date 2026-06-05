@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.5" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Fortuna.Application\Fortuna.Application.csproj" />
+    <ProjectReference Include="..\Fortuna.Infrastructure\Fortuna.Infrastructure.csproj" />
+    <ProjectReference Include="..\Fortuna.ReadModel\Fortuna.ReadModel.csproj" />
+    <ProjectReference Include="..\Fortuna.Contracts\Fortuna.Contracts.csproj" />
+  </ItemGroup>
+</Project>

@@ -36,9 +36,6 @@ ScaffoldingReadMe.txt
 # NuGet Symbol Packages
 *.snupkg
 
-# dotenv environment variables file
-.env
-
 # Others
 ~$*
 *~
@@ -55,3 +52,40 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+#VisualStudio
+.vs/
+
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.codex
+local.bru
+*.aux
+*.synctex.gz
+*.out
+*.toc
+documentation.pdf
+Aplikacja bankowa Jakub Wołczko i Jakub Łaszuk.pdf

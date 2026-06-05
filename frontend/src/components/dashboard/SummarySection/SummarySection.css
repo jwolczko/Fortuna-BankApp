@@ -1,0 +1,117 @@
+.summary-section {
+  background: var(--surface);
+  box-shadow: 0 8px 18px rgba(7, 26, 51, 0.1);
+  padding: 10px;
+  border-radius: 14px;
+}
+
+.summary-section__card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.summary-section__card-header h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-navy);
+}
+
+.summary-section__amount {
+  margin-top: 32px;
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--color-navy);
+}
+
+.summary-section__actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 48px;
+}
+
+.summary-section__primary-btn,
+.summary-section__outline-btn {
+  height: 36px;
+  min-width: 146px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 10px;
+  cursor: pointer;
+  transition:
+    background-color 0.16s ease,
+    border-color 0.16s ease,
+    color 0.16s ease,
+    transform 0.08s ease;
+}
+
+.summary-section__primary-btn {
+  border: 2px solid var(--color-burgundy);
+  background: #fff;
+  color: var(--color-burgundy);
+}
+
+.summary-section__outline-btn {
+  border: 2px solid var(--color-gold);
+  background: #fff;
+  color: var(--color-navy);
+}
+
+.summary-section__primary-btn:hover {
+  background: var(--color-burgundy-light);
+}
+
+.summary-section__primary-btn:active {
+  background: var(--color-burgundy);
+  color: var(--color-ivory-strong);
+  transform: translateY(1px);
+}
+
+.summary-section__outline-btn:hover {
+  background: var(--color-gold-light);
+}
+
+.summary-section__outline-btn:active {
+  background: var(--color-gold);
+  color: var(--color-navy);
+  transform: translateY(1px);
+}
+
+.summary-section__pager {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 18px;
+  margin-left: 160px;
+  color: #526061;
+}
+
+.summary-section__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-gold-light);
+}
+
+.summary-section__dot--active {
+  background: var(--color-emerald);
+}
+
+.summary-section__pager-arrow {
+  margin-left: 126px;
+  font-size: 22px;
+}
+
+.summary-section__promo-placeholder {
+  min-height: 262px;
+}
+
+@media (max-width: 1200px) {
+  .summary-section__top-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-section__left {
+    min-height: auto;
+  }
+}

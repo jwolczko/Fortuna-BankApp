@@ -1,0 +1,48 @@
+@startuml
+title Fortuna - Project Dependency Diagram
+
+skinparam shadowing false
+skinparam packageStyle rectangle
+
+package "Backend Solution" {
+  [Fortuna.Api] as Api
+  [Fortuna.Application] as App
+  [Fortuna.Domain] as Domain
+  [Fortuna.Infrastructure] as Infra
+  [Fortuna.ReadModel] as ReadModel
+  [Fortuna.Contracts] as Contracts
+}
+
+Api --> App
+Api --> Infra
+Api --> ReadModel
+Api --> Contracts
+
+App --> Domain
+
+Infra --> App
+Infra --> Domain
+
+ReadModel --> App
+ReadModel --> Infra
+
+note bottom of Api
+  Controllers:
+  - CustomersController
+  - AccountsController
+  - TransfersController
+  - DashboardController
+end note
+
+note bottom of App
+  Handlers:
+  - RegisterCustomer
+  - LoginCustomer
+  - OpenBankAccount
+  - DepositMoney
+  - WithdrawMoney
+  - CreateTransfer
+  - GetDashboard
+end note
+
+@enduml

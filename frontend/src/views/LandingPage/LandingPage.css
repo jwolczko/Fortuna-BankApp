@@ -1,0 +1,29 @@
+.landing-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 50% 22%, rgba(199, 161, 58, 0.11), transparent 34%),
+    linear-gradient(180deg, var(--color-ivory-strong) 0%, var(--color-ivory) 58%, #f7f0df 100%);
+}
+
+.landing-page__login-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background-color: rgba(28, 31, 36, 0.58);
+  backdrop-filter: grayscale(1) saturate(0.18) brightness(0.9);
+  overflow-y: auto;
+  isolation: isolate;
+}
+
+.landing-page__login-dialog {
+  position: relative;
+  width: min(100%, 440px);
+  background: #fff;
+  border: 2px solid var(--color-gold);
+  border-radius: 18px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34);
+}

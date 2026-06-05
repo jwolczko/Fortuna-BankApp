@@ -1,0 +1,48 @@
+@startuml
+title Fortuna - Outbox Processing Flow
+
+skinparam shadowing false
+
+participant "Domain aggregate\n(Customer/Product/Transfer)" as Aggregate
+participant "WriteDbContext\nSaveChangesAsync" as WriteContext
+database "FortunaWriteDb\nOutboxMessages" as Outbox
+participant "OutboxMessageProcessor\nBackgroundService" as Processor
+participant "ProjectionDispatcher" as Dispatcher
+database "FortunaReadDb\nProductTile" as ProductTile
+database "FortunaReadDb\nTimelineEvent" as TimelineEvent
+database "FortunaReadDb\nProcessedOutboxMessage" as Processed
+
+Aggregate -> Aggregate : Add domain event
+Aggregate -> WriteContext : UnitOfWork.SaveChangesAsync()
+WriteContext -> WriteContext : Collect DomainEvents\nfrom tracked entities
+WriteContext -> Outbox : Insert serialized event\nType, Payload, OccurredOnUtc
+WriteContext -> Aggregate : ClearDomainEvents()
+
+... every 2 seconds ...
+
+Processor -> Outbox : Load unprocessed messages\nProcessedOnUtc == null
+loop for each message
+  Processor -> Dispatcher : ProjectAsync(message)
+  Dispatcher -> Processed : Check if already processed
+
+  alt ProductCreatedDomainEvent
+    Dispatcher -> ProductTile : Insert/update product tile
+  else MoneyDepositedDomainEvent
+    Dispatcher -> ProductTile : Increase balance
+    Dispatcher -> TimelineEvent : Insert positive event
+  else MoneyWithdrawnDomainEvent
+    Dispatcher -> ProductTile : Decrease balance
+    Dispatcher -> TimelineEvent : Insert negative event
+  end
+
+  Dispatcher -> Processed : Insert processed message id
+  Processor -> Outbox : Set ProcessedOnUtc\nand clear Error
+end
+
+note right of Processed
+  Idempotency guard:
+  the same outbox message
+  is not projected twice.
+end note
+
+@enduml
