@@ -1,41 +1,40 @@
-# Aplikacja bankowa ***Fortuna***
+# ***Fortuna*** Banking Application
 
-Aplikacja bankowa na zaliczenie przedmiotu "Projektowanie wielowarstwowych aplikacji biznesowych"
+A banking application created as a course project for "Designing Multi-Tier Business Applications".
 
-## Wymagane narzędzia:
+## Required Tools
 
- * [Visual Studio 2026](https://visualstudio.microsoft.com/pl/thank-you-downloading-visual-studio/?sku=Community&channel=Stable&version=VS18&source=VSLandingPage&cid=2500&passive=false) lub [Ridder](https://www.jetbrains.com/rider/download/)
- * [Visual Studio Code](https://code.visualstudio.com/Download)
- * [SQL Server Management Studio](https://aka.ms/ssms/22/release/vs_SSMS.exe) lub inne narzędzie umożliwiające łączenie się z MS SQL Server
- * [Bruno](https://www.usebruno.com/downloads)
- * [Git](https://git-scm.com)
+* [Visual Studio 2026](https://visualstudio.microsoft.com/pl/thank-you-downloading-visual-studio/?sku=Community&channel=Stable&version=VS18&source=VSLandingPage&cid=2500&passive=false) or [Rider](https://www.jetbrains.com/rider/download/)
+* [Visual Studio Code](https://code.visualstudio.com/Download)
+* [SQL Server Management Studio](https://aka.ms/ssms/22/release/vs_SSMS.exe) or another tool that can connect to MS SQL Server
+* [Bruno](https://www.usebruno.com/downloads)
+* [Git](https://git-scm.com)
 
+## Running the Project
 
-## Uruchomienie projektu:
+### Frontend
 
-### Frontend:
+Node.js version 25.8.1 or newer is required:
+[Download the current version](https://nodejs.org/en/download/current)
 
-Wymagana jest instalacja NodeJs w wersji 25.8.1 lub nowszej:
-[Obecna werjsa do pobrania](https://nodejs.org/en/download/current)
+After installing Node.js, make sure that the installation path has been correctly added to the **PATH** environment variable.
+You can check this by opening Command Prompt or PowerShell and running: **npm --version** or **node --version**.
+If a version number is returned, everything is configured correctly.
 
-Po zainstalowaniu nodejs należy się upewnić że ścieżka została prawidłowo dodana do zmiennej środowiskowej **PATH**.
-Można to zrobić po przez uruchomienie wiersz poleceń lub PowerShella i wpisanie : **npm --version** lub **node --version**.
-Jeżeli zostanie zwrócona wersja to znaczy że jest ok.
+To run the project in Visual Studio Code:
 
-W celu uruchomienia projektu należy w Visual Studio Code należy:
-* kliknąć w menu *File* -> *Open Folder...*
-* następnie wybrać folder: *..\Designing-multi-tier-business-applications\frontend*
-* po otworzeniu projektu należy kliknąć w menu *Terminal* -> *New Teminal*
-* w teminalu należy wpisać: **npm install**
-* po zainstalowaniu wrzystkich pakietów można uruchomić projekt wpisując: **npm run dev** 
+* click *File* -> *Open Folder...*
+* select the folder: *..\Designing-multi-tier-business-applications\frontend*
+* after opening the project, click *Terminal* -> *New Terminal*
+* in the terminal, run: **npm install**
+* after all packages have been installed, start the project with: **npm run dev**
 
+### Backend
 
-### Backend:
-Do pełnego działania backendu wymagamane jest poprawne zainstalowanie Visula Studio 2026
-oraz .NET 10.
-W celu uruiichomienia projektu należy za pomocą Visula Studio lub Riddera uruchomić plik: **Fortuna.slnx** z folderu : *..\Designing-multi-tier-business-applications\backend*
+For the backend to work correctly, Visual Studio 2026 and .NET 10 must be properly installed.
+To run the project, open the **Fortuna.slnx** file from the *..\Designing-multi-tier-business-applications\backend* folder using Visual Studio or Rider.
 
-Backend można też uruchomić bezpośrednio z terminala. Z katalogu głównego repozytorium należy wykonać:
+The backend can also be started directly from the terminal. From the repository root directory, run:
 
 ```powershell
 cd backend/src/Fortuna.Api
@@ -43,31 +42,30 @@ dotnet restore
 dotnet run
 ```
 
-Po uruchomieniu aplikacji terminal wyświetli adres API, np. `https://localhost:xxxx` albo `http://localhost:xxxx`.
-Swagger jest dostępny pod adresem:
+After the application starts, the terminal will display the API address, for example `https://localhost:xxxx` or `http://localhost:xxxx`.
+Swagger is available at:
 
 ```text
 https://localhost:xxxx/swagger
 ```
 
-albo:
+or:
 
 ```text
 http://localhost:xxxx/swagger
 ```
 
-Poprawność działania API można sprawdzić endpointem:
+You can verify that the API is working by calling the following endpoint:
 
 ```text
 GET /api/health
 ```
 
-Przed uruchomieniem backendu należy upewnić się, że SQL Server działa oraz że zostały wykonane skrypty tworzące bazy `FortunaWriteDb` i `FortunaReadDb`.
+Before starting the backend, make sure that SQL Server is running and that the scripts creating the `FortunaWriteDb` and `FortunaReadDb` databases have been executed.
 
-### Bazy danych:
-Do baz danych należy zainstalować [**SQL Serve 2025 Developer**](https://go.microsoft.com/fwlink/?linkid=2344626&clcid=0x409&culture=en-us&country=us). Po poprawnym zainstalowaniu instancji SQL Servera należy uruchomić SQL Server Management Studio.
-Następnie należy kliknąż w menu *Plik* -> *Otwórz* -> *Projekt/rozwiązanie*,
-jak pojawi się okno dialogowe z wyborem projektu należy wskazać plik **FortunaDb.slnx**
-z folderu *..\Designing-multi-tier-business-applications\database*.
-Po uwuchomieniu projektu należy wykonać 2 skrypty: **FortunaReadDb.sql** i **FortunaWriteDb.sql** które odtworzą bazy danych.
+### Databases
 
+For the databases, install [**SQL Server 2025 Developer**](https://go.microsoft.com/fwlink/?linkid=2344626&clcid=0x409&culture=en-us&country=us). After correctly installing the SQL Server instance, start SQL Server Management Studio.
+Then click *File* -> *Open* -> *Project/Solution*.
+When the project selection dialog appears, select the **FortunaDb.slnx** file from the *..\Designing-multi-tier-business-applications\database* folder.
+After opening the project, run the two scripts: **FortunaReadDb.sql** and **FortunaWriteDb.sql**, which will recreate the databases.
